@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using SubwayStation.Infrastructure.MapperProfiles;
 
 namespace SubwayStation.Infrastructure.ConfigInjections
 {
@@ -9,7 +10,7 @@ namespace SubwayStation.Infrastructure.ConfigInjections
         {
             var mapperConfig = new MapperConfiguration(config =>
             {
-                //config.AddProfile(new RatingProfile());
+                config.AddProfile(new AccountProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

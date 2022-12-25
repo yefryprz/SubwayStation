@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text.Json;
 
-namespace SubwayStation.Infrastructure.middlewares
+namespace SubwayStation.Infrastructure.Middlewares
 {
     public class ErrorHandlingMiddleware
     {
@@ -37,7 +37,7 @@ namespace SubwayStation.Infrastructure.middlewares
             context.Response.StatusCode = (int)code;
 
             //Add code for errorlog
-            return context.Response.WriteAsync(JsonSerializer.Serialize(new { message = ex.Message }));
+            return context.Response.WriteAsJsonAsync(new { message = ex.Message });
         }
     }
 }

@@ -13,6 +13,11 @@ namespace SubwayStation.Infrastructure.Services
             _memoryCache = memoryCache;
         }
 
+        public void DelCacheValue(string key)
+        {
+            _memoryCache.Remove(key);
+        }
+
         public bool GetCacheValue<T>(string key, ref T value)
         {
             var result = _memoryCache.Get(key);

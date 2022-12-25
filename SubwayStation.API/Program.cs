@@ -1,7 +1,8 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SubwayStation.Domain;
 using SubwayStation.Infrastructure.ConfigInjections;
-using SubwayStation.Infrastructure.middlewares;
+using SubwayStation.Infrastructure.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +21,17 @@ builder.Services.AddMemoryCache();
 builder.Services.AddAutoMapperConfig();
 builder.Services.AddServicesInjections();
 builder.Services.AddRepositoryInjections();
+builder.Services.AddAuthenticationConfig(builder.Configuration);
 
 // Inject DbContext
 string? connectionString = builder.Configuration.GetConnectionString("SubwayStationConnection");
-builder.Services.AddDbContext<SubwayStationContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<SubwayStationContext>(options => options.UseSqlServer(connectionString, migration => migration.MigrationsAssembly("SubwayStation.API")));
+builder.Services.AddDbContext<SubwayIdentityContext>(options => options.UseSqlServer(connectionString, migration => migration.MigrationsAssembly("SubwayStation.API")));
+
+//Enable AspNetCore identity Authentication
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<SubwayIdentityContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
