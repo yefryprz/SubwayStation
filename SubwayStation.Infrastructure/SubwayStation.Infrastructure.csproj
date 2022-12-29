@@ -14,10 +14,12 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SubwayStation.Application.Contracts\SubwayStation.Application.Contracts.csproj" />
+    <ProjectReference Include="..\SubwayStation.Appication\SubwayStation.Appication.csproj" />
+    <ProjectReference Include="..\SubwayStation.Application.Contracts\SubwayStation.Contracts.csproj" />
     <ProjectReference Include="..\SubwayStation.Domain\SubwayStation.Domain.csproj" />
   </ItemGroup>
 

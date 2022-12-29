@@ -5,5 +5,6 @@
         public string JwtSecret { get; set; }
         public int JwtExpiration { get; set; }
         public int JwtRefreshExpiration { get; set; }
+        public string SubwayEndPoint { get; set; }
     }
 }

@@ -1,19 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SubwayStation.Domain.Entities;
+using System.Security.Claims;
 
 namespace SubwayStation.Domain
 {
     public class SubwayStationContext : DbContext
     {
-        public SubwayStationContext(DbContextOptions options) : base(options) { }
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public SubwayStationContext(DbContextOptions<SubwayStationContext> options, IHttpContextAccessor HttpContextAccessor) : base(options) 
+        {
+            _httpContextAccessor = HttpContextAccessor;
+        }
 
         #region Tables
-
+        public DbSet<Subways> Subways { get; set; }
+        public DbSet<Geometric> Geometrics { get; set; }
+        public DbSet<Frequently> Frequentlies { get; set; }
         #endregion
 
 
         #region Override Methods
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -23,6 +31,14 @@ namespace SubwayStation.Domain
         {
             // Get Entities
             var EntityBaseSet = ChangeTracker.Entries<EntityBase>();
+            Guid userId = Guid.Empty;
+
+            Claim userClaim = _httpContextAccessor.HttpContext.User.FindFirst(x => x.Type == ClaimTypes.NameIdentifier);
+
+            if (userClaim != null)
+            {
+                userId = Guid.Parse(userClaim.Value);
+            }
 
             if (EntityBaseSet.Any())
             {
@@ -33,12 +49,7 @@ namespace SubwayStation.Domain
                 {
                     if (auditableEntity.State == EntityState.Added)
                     {
-                        auditableEntity.Entity.IsActive = true;
-                        auditableEntity.Entity.CreatedDate = currentDate;
-                    }
-
-                    if (auditableEntity.State == EntityState.Modified || auditableEntity.State == EntityState.Deleted)
-                    {
+                        auditableEntity.Entity.UserId = userId;
                         auditableEntity.Entity.CreatedDate = currentDate;
                     }
                 }

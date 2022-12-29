@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using SubwayStation.Domain;
 using SubwayStation.Infrastructure.ConfigInjections;
@@ -7,9 +10,22 @@ using SubwayStation.Infrastructure.Middlewares;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Add global authorization with jwt
+builder.Services.AddControllers(options =>
+{
+    options.EnableEndpointRouting = true;
+
+    var policy = new AuthorizationPolicyBuilder()
+        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+        .RequireAuthenticatedUser()
+        .Build();
+
+    options.Filters.Add(new AuthorizeFilter(policy));
+});
 
 //Get config from appSetting.json
 builder.Services.Configure<AppSetting>(builder.Configuration.GetSection("Settings"));
@@ -19,9 +35,10 @@ builder.Services.AddMemoryCache();
 
 //Add Custom Configuration
 builder.Services.AddAutoMapperConfig();
+builder.Services.AddSwaggerInjection();
 builder.Services.AddServicesInjections();
 builder.Services.AddRepositoryInjections();
-builder.Services.AddAuthenticationConfig(builder.Configuration);
+builder.Services.AddAuthenticationInjection(builder.Configuration);
 
 // Inject DbContext
 string? connectionString = builder.Configuration.GetConnectionString("SubwayStationConnection");
@@ -45,6 +62,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
 
 //Add middlewares
 app.UseMiddleware(typeof(ErrorHandlingMiddleware));

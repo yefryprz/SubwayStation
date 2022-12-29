@@ -9,9 +9,10 @@ namespace SubwayStation.Infrastructure.ConfigInjections
 {
     public static class AuthInjection
     {
-        public static void AddAuthenticationConfig(this IServiceCollection services, IConfiguration Configuration)
+        public static void AddAuthenticationInjection(this IServiceCollection services, IConfiguration Configuration)
         {
             var setting = Configuration.GetSection("Settings").Get<AppSetting>();
+            var secret = Encoding.ASCII.GetBytes(setting.JwtSecret);
 
             services.AddAuthentication(p =>
             {
@@ -21,14 +22,13 @@ namespace SubwayStation.Infrastructure.ConfigInjections
             }).AddJwtBearer(options =>
             {
                 options.SaveToken = true;
-                options.RequireHttpsMetadata = false;
+                options.RequireHttpsMetadata = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(setting.JwtSecret))
+                    IssuerSigningKey = new SymmetricSecurityKey(secret)
                 };
             });
         }

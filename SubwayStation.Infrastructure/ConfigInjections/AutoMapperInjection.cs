@@ -11,6 +11,8 @@ namespace SubwayStation.Infrastructure.ConfigInjections
             var mapperConfig = new MapperConfiguration(config =>
             {
                 config.AddProfile(new AccountProfile());
+                config.AddProfile(new SubwayProfile());
+                config.AddProfile(new FrequentlyProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

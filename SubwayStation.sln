@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubwayStation.Infrastructur
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubwayStation.Domain", "SubwayStation.Domain\SubwayStation.Domain.csproj", "{86DA493C-4100-446C-9FD2-4B4C5EDB9243}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubwayStation.Application.Contracts", "SubwayStation.Application.Contracts\SubwayStation.Application.Contracts.csproj", "{93CA1A84-6419-4BA5-9CAE-2E7BEBD255D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubwayStation.Contracts", "SubwayStation.Application.Contracts\SubwayStation.Contracts.csproj", "{93CA1A84-6419-4BA5-9CAE-2E7BEBD255D2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubwayStation.Appication", "SubwayStation.Appication\SubwayStation.Appication.csproj", "{8528C8A1-B3A7-4285-9FC7-AF5EFE012DC3}"
 EndProject
