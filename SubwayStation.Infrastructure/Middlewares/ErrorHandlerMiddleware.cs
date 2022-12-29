@@ -29,7 +29,7 @@ namespace SubwayStation.Infrastructure.Middlewares
             HttpStatusCode code = ex switch
             {
                 ArgumentNullException => HttpStatusCode.BadRequest,
-                ArgumentException => HttpStatusCode.InternalServerError,
+                ArgumentException => HttpStatusCode.BadRequest,
                 NullReferenceException => HttpStatusCode.BadRequest,
                 _ => HttpStatusCode.InternalServerError
             };

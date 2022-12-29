@@ -16,7 +16,7 @@ namespace SubwayStation.Test
 
         public SubwayStationTest()
         {
-            //Inject dependencies to run server work
+            //Inject dependencies to run server
             _customEndPointTest = new CustomEndPointTest(x =>
             {
                 x.AddAutoMapperConfig();
@@ -81,6 +81,10 @@ namespace SubwayStation.Test
             Assert.NotNull(responseText.Message);
         }
 
+        /// <summary>
+        /// Method to request token and use in other test
+        /// </summary>
+        /// <returns></returns>
         private async Task<string> GetToken()
         {
             using var httpClient = _customEndPointTest.CreateClient();

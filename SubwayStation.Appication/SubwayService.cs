@@ -46,6 +46,8 @@ namespace SubwayStation.Appication
                 f => f.ObjectId == distances.ObjectIdFrom | f.ObjectId == distances.ObjectIdTo
             );
 
+            if (!subways.Any()) throw new ArgumentException("Invalid subway id");
+
             var fromGeoResult = subways.First();
             var toGeoResult = subways.Last();
 
